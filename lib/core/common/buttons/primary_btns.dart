@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:realtime_project/core/common/styles/colors.dart';
+
 class BaseButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String? title;
@@ -124,6 +126,38 @@ class PrimaryBtn extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       leading: leading,
       trailing: trailing,
+    );
+  }
+}
+
+class KIconButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final IconData? icon;
+  final Color? color;
+  final double size;
+  final bool isDisabled;
+  final String? tooltip;
+
+  const KIconButton({
+    super.key,
+    this.onPressed,
+    this.icon,
+    this.color,
+    this.size = 40,
+    this.isDisabled = false,
+    this.tooltip,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: tooltip,
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: isDisabled ? AppColors.disabledColor : color,
+        size: size,
+      ),
     );
   }
 }

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtime_project/core/common/widget/dropdown.dart';
-import 'package:realtime_project/core/common/widget/k_cal_copy.dart';
 import 'package:realtime_project/core/common/widget/k_date_time_selector.dart';
 
 import 'package:realtime_project/core/common/widget/k_textform_field.dart';
@@ -13,6 +12,20 @@ import 'package:realtime_project/src/add_employee/presentation/add_employee/add_
 import 'package:realtime_project/src/add_employee/presentation/add_employee/add_employee_state.dart';
 import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
 
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
 class AddEmployeeScreen extends StatefulWidget {
   final Employee employee;
   const AddEmployeeScreen({
@@ -21,7 +34,7 @@ class AddEmployeeScreen extends StatefulWidget {
   });
 
   @override
-  _AddEmployeeScreenState createState() => _AddEmployeeScreenState();
+  State<AddEmployeeScreen> createState() => _AddEmployeeScreenState();
 }
 
 class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
@@ -108,47 +121,6 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
               selectedValue: screenCubit.role,
               leadingWidget: const Icon(Icons.work),
             ),
-            CalendarDatePickerCopy(
-              firstDate: DateTime.now().subtract(const Duration(days: 500)),
-              lastDate: DateTime.now().add(const Duration(days: 20)),
-              initialDate: DateTime.now(),
-              onDateChanged: (DateTime date) {
-                print("Selected Date: $date");
-              },
-            ),
-            IconButton(
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    barrierColor: Colors.black.withOpacity(0.5),
-                    barrierLabel: "Select Date",
-                    useRootNavigator: true,
-                    builder: (_) => Center(
-                      child: Dialog(
-                        clipBehavior: Clip.antiAlias,
-                        child: AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.fastOutSlowIn,
-                          child: MediaQuery.withClampedTextScaling(
-                            maxScaleFactor: 1.3,
-                            child: CalendarDatePickerCopy(
-                              firstDate: DateTime.now()
-                                  .subtract(const Duration(days: 500)),
-                              lastDate:
-                                  DateTime.now().add(const Duration(days: 20)),
-                              initialDate: DateTime.now(),
-                              onDateChanged: (DateTime date) {
-                                print("Selected Date: $date");
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.calendar_month)),
             Row(
               children: [
                 Expanded(

@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:flutter/material.dart';
+import 'package:realtime_project/core/common/widget/k_calender.dart';
 import 'package:realtime_project/core/common/widget/k_textform_field.dart';
+import 'package:realtime_project/core/extensions/date_time_ext.dart';
 
 class KDateTimeSelector extends StatefulWidget {
   final String? hintText;
@@ -23,7 +23,7 @@ class _KDateTimeSelectorState extends State<KDateTimeSelector> {
 
   @override
   void initState() {
-    dateController.text = widget.selectedValue?.toIso8601String() ?? "";
+    dateController.text = widget.selectedValue?.todmmmyyyy() ?? "";
     super.initState();
   }
 
@@ -34,16 +34,35 @@ class _KDateTimeSelectorState extends State<KDateTimeSelector> {
       readOnly: true,
       prefixIcon: const Icon(Icons.calendar_today),
       onTap: () async {
-        final DateTime? picked = await showDatePicker(
+        final pickedDate = await showDialog<DateTime?>(
           context: context,
-          initialDate: widget.selectedValue ?? DateTime.now(),
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101),
+          barrierDismissible: true,
+          barrierColor: Colors.black.withOpacity(0.5),
+          barrierLabel: "Select Date",
+          useRootNavigator: true,
+          builder: (_) => Center(
+            child: Dialog(
+              clipBehavior: Clip.antiAlias,
+              child: AnimatedContainer(
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastOutSlowIn,
+                child: MediaQuery.withClampedTextScaling(
+                  maxScaleFactor: 1.3,
+                  child: CustomCalendarDatePicker(
+                      firstDate:
+                          DateTime.now().subtract(const Duration(days: 500)),
+                      lastDate: DateTime.now().add(const Duration(days: 20)),
+                      initialDate: DateTime.now(),
+                      onDateChanged: (DateTime picked) {}),
+                ),
+              ),
+            ),
+          ),
         );
-        if (picked != null && widget.onSelected != null) {
-          widget.onSelected!(picked);
+        if (pickedDate != null) {
+          widget.onSelected!(pickedDate);
           setState(() {
-            dateController.text = picked.toIso8601String();
+            dateController.text = pickedDate.todmmmyyyy();
           });
         }
       },

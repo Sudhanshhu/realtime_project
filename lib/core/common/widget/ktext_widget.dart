@@ -31,7 +31,7 @@ class KText extends StatelessWidget {
       maxLines: maxLines,
       style: TextStyle(
         color: color ?? Colors.black,
-        fontSize: 16,
+        fontSize: fontSize,
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
       ),
     );

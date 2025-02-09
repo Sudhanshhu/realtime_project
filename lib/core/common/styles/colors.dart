@@ -13,6 +13,8 @@ mixin AppColors {
   static const infoColor = Color(0xFF1976D2);
   static const backgroundColor = Color(0xFFF5F5F5);
 
+  static const disabledColor = Color(0xFFBDBDBD);
+
   static const shadowColor = Color(0xFFFFFFFF);
   static const whiteColor = Color(0xFFFFFFFF);
 }

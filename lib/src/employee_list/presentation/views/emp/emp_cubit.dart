@@ -27,6 +27,16 @@ class EmpCubit extends Cubit<EmpState> {
     }
   }
 
+  Future<void> deleteEmployee(Employee emp) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+      await repo.deleteEmployee(emp.id);
+      await loadInitialData(kContext);
+    } catch (error) {
+      emit(state.copyWith(error: error.toString()));
+    }
+  }
+
   Future<void> navigateToAddEmployee(Employee? emp) async {
     final rs = RouteManager.getAddEmpDetailsPgRs(emp);
     await Navigator.of(kContext).pushNamed(rs.name!, arguments: rs.arguments);

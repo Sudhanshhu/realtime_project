@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtime_project/core/common/widget/empty_widget.dart';
 import 'package:realtime_project/core/common/widget/k_appbar.dart';
 import 'package:realtime_project/core/di/di.dart';
-import 'package:realtime_project/core/routing/route_manager.dart';
 import 'package:realtime_project/src/employee_list/presentation/views/emp/emp_cubit.dart';
 import 'package:realtime_project/src/employee_list/presentation/views/emp/emp_state.dart';
 

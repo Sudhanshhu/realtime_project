@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtime_project/core/common/widget/dropdown.dart';
+import 'package:realtime_project/core/common/widget/k_cal_copy.dart';
 import 'package:realtime_project/core/common/widget/k_date_time_selector.dart';
 
 import 'package:realtime_project/core/common/widget/k_textform_field.dart';
@@ -78,56 +79,100 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   Widget buildBody(AddEmployeeState state) {
     return Form(
       key: screenCubit.formKey,
-      child: Column(
-        children: [
-          KTextFormField(
-            controller: screenCubit.nameController,
-            hintText: "Employee Name",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            prefixIcon: const Icon(Icons.person),
-          ),
-          KdropDown<RoleEnum>(
-            items: RoleEnum.values
-                .map(
-                  (e) => SingleSelectionModel(
-                    id: e.code.toString(),
-                    object: e,
-                    title: e.title,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            KTextFormField(
+              controller: screenCubit.nameController,
+              hintText: "Employee Name",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              prefixIcon: const Icon(Icons.person),
+            ),
+            KdropDown<RoleEnum>(
+              items: RoleEnum.values
+                  .map(
+                    (e) => SingleSelectionModel(
+                      id: e.code.toString(),
+                      object: e,
+                      title: e.title,
+                    ),
+                  )
+                  .toList(),
+              hintText: "Select Role",
+              onSelected: screenCubit.onRoleSelected,
+              selectedValue: screenCubit.role,
+              leadingWidget: const Icon(Icons.work),
+            ),
+            CalendarDatePickerCopy(
+              firstDate: DateTime.now().subtract(const Duration(days: 500)),
+              lastDate: DateTime.now().add(const Duration(days: 20)),
+              initialDate: DateTime.now(),
+              onDateChanged: (DateTime date) {
+                print("Selected Date: $date");
+              },
+            ),
+            IconButton(
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    barrierColor: Colors.black.withOpacity(0.5),
+                    barrierLabel: "Select Date",
+                    useRootNavigator: true,
+                    builder: (_) => Center(
+                      child: Dialog(
+                        clipBehavior: Clip.antiAlias,
+                        child: AnimatedContainer(
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastOutSlowIn,
+                          child: MediaQuery.withClampedTextScaling(
+                            maxScaleFactor: 1.3,
+                            child: CalendarDatePickerCopy(
+                              firstDate: DateTime.now()
+                                  .subtract(const Duration(days: 500)),
+                              lastDate:
+                                  DateTime.now().add(const Duration(days: 20)),
+                              initialDate: DateTime.now(),
+                              onDateChanged: (DateTime date) {
+                                print("Selected Date: $date");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.calendar_month)),
+            Row(
+              children: [
+                Expanded(
+                  child: KDateTimeSelector(
+                    key: const Key("fromDate"),
+                    hintText: "Select Date of joining",
+                    selectedValue: screenCubit.fromDate,
+                    onSelected: screenCubit.onFromDateSelected,
                   ),
-                )
-                .toList(),
-            hintText: "Select Role",
-            onSelected: screenCubit.onRoleSelected,
-            selectedValue: screenCubit.role,
-            leadingWidget: const Icon(Icons.work),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: KDateTimeSelector(
-                  key: const Key("fromDate"),
-                  hintText: "Select Date of joining",
-                  selectedValue: screenCubit.fromDate,
-                  onSelected: screenCubit.onFromDateSelected,
                 ),
-              ),
-              const Icon(Icons.arrow_forward),
-              Expanded(
-                child: KDateTimeSelector(
-                  key: const Key("toDate"),
-                  hintText: "Select Date of leaving",
-                  selectedValue: screenCubit.toDate,
-                  onSelected: screenCubit.onToDateSelected,
+                const Icon(Icons.arrow_forward),
+                Expanded(
+                  child: KDateTimeSelector(
+                    key: const Key("toDate"),
+                    hintText: "Select Date of leaving",
+                    selectedValue: screenCubit.toDate,
+                    onSelected: screenCubit.onToDateSelected,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            // const CustomCalendar(),
+          ],
+        ),
       ),
     );
   }

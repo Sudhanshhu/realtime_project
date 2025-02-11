@@ -91,21 +91,7 @@ class _EmployeHomeScreenState extends State<EmployeHomeScreen> {
                     ),
                   ),
                 if (currentEmpList.isNotEmpty)
-                  Column(
-                    children: currentEmpList
-                        .map(
-                          (emp) => DisplayEmployee(
-                            emp: emp,
-                            onTap: () {
-                              screenCubit.navigateToAddEmployee(emp);
-                            },
-                            onDelete: () async {
-                              await screenCubit.deleteEmployee(emp);
-                            },
-                          ),
-                        )
-                        .toList(),
-                  ),
+                  displayEmployeeList(currentEmpList, true),
                 if (previousEmpList.isNotEmpty)
                   const ListTile(
                     title: KText(
@@ -116,24 +102,31 @@ class _EmployeHomeScreenState extends State<EmployeHomeScreen> {
                     ),
                   ),
                 if (previousEmpList.isNotEmpty)
-                  Column(
-                    children: previousEmpList
-                        .map(
-                          (emp) => DisplayEmployee(
-                            isCurrentEmployee: false,
-                            emp: emp,
-                            onDelete: () async {
-                              await screenCubit.deleteEmployee(emp);
-                            },
-                            onTap: () {
-                              screenCubit.navigateToAddEmployee(emp);
-                            },
-                          ),
-                        )
-                        .toList(),
-                  ),
+                  displayEmployeeList(previousEmpList, false),
               ],
             ),
           );
+  }
+
+  ListView displayEmployeeList(
+      List<Employee> employeeList, bool currentEmpList) {
+    return ListView.separated(
+      separatorBuilder: (context, index) => const Divider(),
+      shrinkWrap: true,
+      itemCount: employeeList.length,
+      itemBuilder: (context, index) {
+        final emp = employeeList[index];
+        return DisplayEmployee(
+          isCurrentEmployee: currentEmpList,
+          emp: emp,
+          onTap: () {
+            screenCubit.navigateToAddEmployee(emp);
+          },
+          onDelete: () async {
+            await screenCubit.deleteEmployee(emp);
+          },
+        );
+      },
+    );
   }
 }

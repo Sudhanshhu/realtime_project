@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:realtime_project/core/common/styles/colors.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
 import 'package:realtime_project/core/extensions/date_time_ext.dart';
 import 'package:realtime_project/core/extensions/string_ext.dart';
@@ -26,12 +27,11 @@ class DisplayEmployee extends StatelessWidget {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            // An action can be bigger than the others.
-            flex: 2,
+            flex: 1,
             onPressed: (context) {
               onDelete();
             },
-            backgroundColor: const Color(0xFF7BC043),
+            backgroundColor: AppColors.errorColor,
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Delete',
@@ -49,11 +49,17 @@ class DisplayEmployee extends StatelessWidget {
           children: [
             KText(
               emp.role?.title ?? "",
+              color: AppColors.disabledColor,
             ),
             isCurrentEmployee
-                ? KText("From ${emp.joiningDate?.todmmmyyyy()}")
+                ? KText(
+                    "From ${emp.joiningDate?.todmmmyyyy() ?? ""} ",
+                    color: AppColors.disabledColor,
+                  )
                 : KText(
-                    "${emp.joiningDate?.todmmmyyyy()} - ${emp.leavingDate?.todmmmyyyy() ?? ""}"),
+                    "${emp.joiningDate?.todmmmyyyy()} - ${emp.leavingDate?.todmmmyyyy() ?? ""}",
+                    color: AppColors.disabledColor,
+                  ),
           ],
         ),
         onTap: onTap,

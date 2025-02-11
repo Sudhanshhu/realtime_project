@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:realtime_project/core/common/widget/k_icon.dart';
 
 class KTextFormField extends StatelessWidget {
   const KTextFormField({
@@ -15,7 +16,7 @@ class KTextFormField extends StatelessWidget {
     this.keyboardType,
     this.hintStyle,
     this.valueText = "",
-    this.prefixIcon,
+    this.prefixIconData,
     this.onChanged,
     this.maxLines = 1,
     this.minLines = 1,
@@ -27,12 +28,10 @@ class KTextFormField extends StatelessWidget {
     this.onTap,
     this.disabledFillColor = Colors.black12,
     this.focusNode,
-    this.prefixText,
     this.mandatory = false,
   });
 
   final String? Function(String?)? validator;
-  final String? prefixText;
   final TextEditingController? controller;
   final bool filled;
   final Color? fillColour;
@@ -43,7 +42,7 @@ class KTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextStyle? hintStyle;
   final String valueText;
-  final Widget? prefixIcon;
+  final IconData? prefixIconData;
   final int? minLines;
   final int? maxLines;
   final bool isEditable;
@@ -61,69 +60,66 @@ class KTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(givePadding ? 8.0 : 0.0),
-      child: TextFormField(
-        focusNode: focusNode,
-        autofocus: autofocus,
-        onTap: onTap,
-        enabled: isEnable,
-        onChanged: onChanged,
-        controller: controller,
-        maxLines: maxLines,
-        minLines: minLines,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        readOnly: readOnly,
-        validator: validator ??
-            ((mandatory && validator == null)
-                ? (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 60,
+          maxWidth: 450,
+        ),
+        child: TextFormField(
+          focusNode: focusNode,
+          autofocus: autofocus,
+          onTap: onTap,
+          enabled: isEnable,
+          onChanged: onChanged,
+          controller: controller,
+          maxLines: maxLines,
+          minLines: minLines,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          readOnly: readOnly,
+          validator: validator ??
+              ((mandatory && validator == null)
+                  ? (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return validator?.call(value);
                     }
-                    return validator?.call(value);
-                  }
-                : null),
-        onTapOutside: (_) {
-          FocusScope.of(context).unfocus();
-        },
-        decoration: InputDecoration(
-          prefix: (prefixText != null)
-              ? Text(
-                  "${prefixText!}  ",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: Colors.white12,
-                  ),
-                )
-              : null,
-          prefixIcon: prefixIcon,
-          hintText: hintText,
-          label: Text(hintText ?? ""),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              color: Theme.of(context).primaryColor,
+                  : null),
+          onTapOutside: (_) {
+            FocusScope.of(context).unfocus();
+          },
+          decoration: InputDecoration(
+            prefixIcon:
+                prefixIconData != null ? KIcon(icon: prefixIconData!) : null,
+            hintText: hintText,
+            label: Text(hintText ?? ""),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-          // overwriting the default padding helps with that puffy look
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          filled: filled,
-          fillColor: fillColour,
-          suffixIcon: suffixIcon,
-
-          hintStyle: hintStyle ??
-              const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
               ),
+            ),
+            // overwriting the default padding helps with that puffy look
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            filled: filled,
+            fillColor: fillColour,
+            suffixIcon: suffixIcon,
+
+            hintStyle: hintStyle ??
+                const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
         ),
       ),
     );

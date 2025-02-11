@@ -1,7 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-// Make stateless widget which will take text as input and opyional design and return Text widget with that text.
-
 import 'package:flutter/material.dart';
 
 /// Text widget with black color as default color

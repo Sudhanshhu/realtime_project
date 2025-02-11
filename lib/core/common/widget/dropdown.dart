@@ -1,5 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:realtime_project/core/common/widget/k_icon.dart';
 
 import 'package:realtime_project/core/common/widget/k_textform_field.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
@@ -20,96 +20,13 @@ class SingleSelectionModel<T> {
   });
 }
 
-/// A dropdown widget that takes a list of [SingleSelectionModel] and returns the selected value.
-///
-/// {@tool snippet}
-///
-/// Use it as:
-/// ```dart
-/// GetDropDown<BusCityModel>(
-///   leadingWidget: const Text("From City  : "),
-///   optionsList: k2options,
-///   selectedValue: selectedFromCityModel,
-///   onSelected: (v) {
-///     setState(() {
-///       selectedFromCityModel = v;
-///     });
-///   },
-///   hintText: "Select from City",
-/// ),
-/// ```
-///
-/// {@end-tool}
-class KDropDown<T> extends StatelessWidget {
-  final List<SingleSelectionModel> optionsList;
-  final T? selectedValue;
-  final ValueChanged<T?>? onSelected;
-  final String? hintText;
-  final String? labelText;
-  final Widget? leadingWidget;
-  final bool givePadding;
-
-  const KDropDown({
-    super.key,
-    required this.optionsList,
-    this.selectedValue,
-    this.onSelected,
-    this.hintText,
-    this.labelText,
-    this.leadingWidget,
-    this.givePadding = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(givePadding ? 8.0 : 0.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          leadingWidget ?? Container(),
-          if (leadingWidget != null) const SizedBox(width: 10),
-          DropdownButton<T>(
-            hint: Text(hintText ?? "hint N/A"),
-            icon: const Icon(Icons.arrow_drop_down),
-            iconSize: 24,
-            elevation: 16,
-            isExpanded: false,
-            style: const TextStyle(color: Colors.black),
-            value: selectedValue,
-            items: optionsList
-                .map((e) => DropdownMenuItem<T>(
-                      value: e.object as T,
-                      child: SizedBox(
-                        width: 200,
-                        child: ListTile(
-                          title: Text(e.title),
-                          subtitle:
-                              e.subTitle != null ? Text(e.subTitle!) : null,
-                          leading: e.leadingIcon,
-                        ),
-                      ),
-                    ))
-                .toList(),
-            onChanged: (T? value) {
-              if (value != null) {
-                onSelected?.call(value);
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class KdropDown<T> extends StatefulWidget {
   final List<SingleSelectionModel<T>> items;
   final T? selectedValue;
   final ValueChanged<T?>? onSelected;
   final String? hintText;
   final String? labelText;
-  final Widget? leadingWidget;
+  final IconData? leadingIcon;
 
   const KdropDown({
     super.key,
@@ -118,7 +35,7 @@ class KdropDown<T> extends StatefulWidget {
     this.onSelected,
     this.hintText,
     this.labelText,
-    this.leadingWidget,
+    this.leadingIcon,
   });
 
   @override
@@ -147,8 +64,8 @@ class _KdropDownState<T> extends State<KdropDown<T>> {
       hintText: widget.hintText,
       controller: _controller,
       readOnly: true,
-      prefixIcon: widget.leadingWidget,
-      suffixIcon: const Icon(Icons.arrow_drop_down),
+      prefixIconData: widget.leadingIcon,
+      suffixIcon: const KIcon(icon: Icons.arrow_drop_down),
     );
   }
 
@@ -187,6 +104,8 @@ class _KdropDownState<T> extends State<KdropDown<T>> {
                         );
                         widget.onSelected?.call(item.object);
                         Navigator.pop(context);
+                        FocusScope.of(context).unfocus();
+                        FocusScope.of(context).requestFocus(FocusNode());
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -196,23 +115,6 @@ class _KdropDownState<T> extends State<KdropDown<T>> {
                         ),
                       ),
                     );
-                    //     ListTile(
-                    //   leading: item.leadingIcon,
-                    //   title: Text(item.title),
-                    //   subtitle:
-                    //       item.subTitle != null ? Text(item.subTitle!) : null,
-                    //   onTap: () {
-                    //     // setState(() {
-                    //     _controller.text = item.title;
-                    //     _controller.selection = TextSelection.collapsed(
-                    //         offset:
-                    //             _controller.text.length); // Deselect all text
-
-                    //     // });
-                    //     widget.onSelected?.call(item.object);
-                    //     Navigator.pop(context);
-                    //   },
-                    // );
                   },
                 ),
               ),

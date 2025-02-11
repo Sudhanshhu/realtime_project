@@ -4,12 +4,13 @@ import 'package:realtime_project/core/common/styles/colors.dart';
 
 import 'package:realtime_project/core/common/widget/empty_widget.dart';
 import 'package:realtime_project/core/common/widget/k_appbar.dart';
+import 'package:realtime_project/core/common/widget/k_icon.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
 import 'package:realtime_project/core/di/di.dart';
 import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/emp/emp_cubit.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/emp/emp_state.dart';
-import 'package:realtime_project/src/employee_list/presentation/widgets/display_employee.dart';
+import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_cubit.dart';
+import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_state.dart';
+import 'package:realtime_project/src/employee_list/presentation/widgets/employee_tile.dart';
 
 class EmployeHomeScreen extends StatefulWidget {
   const EmployeHomeScreen({super.key});
@@ -32,10 +33,17 @@ class _EmployeHomeScreenState extends State<EmployeHomeScreen> {
     return Scaffold(
       appBar: KAppBar(title: "Employee List"),
       floatingActionButton: FloatingActionButton(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        backgroundColor: AppColors.primaryColor,
         onPressed: () {
           screenCubit.navigateToAddEmployee(null);
         },
-        child: const Icon(Icons.add),
+        child: const KIcon(
+          icon: Icons.add,
+          color: AppColors.whiteColor,
+        ),
       ),
       body: BlocConsumer<EmpCubit, EmpState>(
         bloc: screenCubit,
@@ -68,9 +76,7 @@ class _EmployeHomeScreenState extends State<EmployeHomeScreen> {
         .where((Employee e) => e.leavingDate != null)
         .toList();
     return state.employeeList.isEmpty
-        ? const EmptyWidget(
-            msg: "No employees found",
-          )
+        ? const EmptyWidget()
         : SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,

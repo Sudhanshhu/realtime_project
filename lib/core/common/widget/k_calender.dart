@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:realtime_project/core/common/buttons/primary_btns.dart';
-import 'package:realtime_project/core/common/styles/colors.dart';
+import 'package:realtime_project/core/common/widget/k_icon.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
 import 'package:realtime_project/core/extensions/date_time_ext.dart';
 
@@ -35,9 +35,9 @@ class CustomCalendarDatePicker extends StatefulWidget {
     this.onDisplayedMonthChanged,
     this.initialCalendarMode = DatePickerMode.day,
     this.selectableDayPredicate,
-    this.nextmondayBtn = true,
-    this.nextTuesday = true,
-    this.after1WeekBtn = true,
+    this.nextmondayBtn = false,
+    this.nextTuesday = false,
+    this.after1WeekBtn = false,
     this.todayBtn = false,
     this.noDatebtn = false,
   })  : initialDate =
@@ -249,9 +249,8 @@ class _CustomCalendarDatePickerState extends State<CustomCalendarDatePicker> {
             _localizations.formatMonthYear(_currentDisplayedMonthDate),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: AppColors.primaryColor,
               fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
             ),
           ),
         );
@@ -275,20 +274,29 @@ class _CustomCalendarDatePickerState extends State<CustomCalendarDatePicker> {
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
     assert(debugCheckHasDirectionality(context));
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        minWidth: 350,
-        maxWidth: 450,
+    return Theme(
+      data: ThemeData().copyWith(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue,
+          accentColor: Colors.blue,
+        ),
+        dialogBackgroundColor: Colors.white,
       ),
-      child: Stack(
-        children: <Widget>[
-          SizedBox(
-            height: _subHeaderHeight + _maxDayPickerHeight + extraHeight,
-            // (widget.row1 != null ? 52 : 0) +
-            // (widget.row2 != null ? 52 : 0),
-            child: _buildPicker(),
-          ),
-        ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 350,
+          maxWidth: 450,
+        ),
+        child: Stack(
+          children: <Widget>[
+            SizedBox(
+              height: _subHeaderHeight + _maxDayPickerHeight + extraHeight,
+              // (widget.row1 != null ? 52 : 0) +
+              // (widget.row2 != null ? 52 : 0),
+              child: _buildPicker(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -356,13 +364,11 @@ class _DatePickerModeToggleButtonState
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              widget.title,
-                              overflow: TextOverflow.ellipsis,
-                              style: textTheme.titleMedium?.copyWith(
-                                color: controlColor,
-                              ),
+                          Text(
+                            widget.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme.titleMedium?.copyWith(
+                              color: controlColor,
                             ),
                           ),
                         ],
@@ -495,13 +501,29 @@ class _MonthPickerState extends State<_MonthPicker> {
     return DateUtils.isSameDay(_focusedDay!, nextTuesdayDate);
   }
 
-  extrabuttonWidget() {
+  Widget extrabuttonWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Wrap(
         children: [
+          if (widget.noDatebtn)
+            cmnBtn(
+              onPressed: () {
+                _handleDateSelected(null);
+                setState(() {});
+              },
+              title: "No Date",
+              isSelected: _focusedDay == null,
+            ),
+          if (widget.todayBtn)
+            cmnBtn(
+                onPressed: () {
+                  _handleDateSelected(DateTime.now());
+                },
+                title: "Today",
+                isSelected: isTodayDateSelected),
           if (widget.nextmondayBtn)
-            kOutlinedBtn(
+            cmnBtn(
               onPressed: () {
                 _handleDateSelected(nextMondayDate);
               },
@@ -509,7 +531,7 @@ class _MonthPickerState extends State<_MonthPicker> {
               isSelected: isFocussedDateNextMonday,
             ),
           if (widget.nextTuesday)
-            kOutlinedBtn(
+            cmnBtn(
               onPressed: () {
                 final DateTime currentDate = DateTime.now();
                 final DateTime nextTuesday = currentDate.add(
@@ -521,7 +543,7 @@ class _MonthPickerState extends State<_MonthPicker> {
               isSelected: isFocussedDateNextTuesday,
             ),
           if (widget.after1WeekBtn)
-            kOutlinedBtn(
+            cmnBtn(
                 onPressed: () {
                   _handleDateSelected(
                       DateTime.now().add(const Duration(days: 7)));
@@ -530,45 +552,22 @@ class _MonthPickerState extends State<_MonthPicker> {
                 isSelected: _focusedDay != null &&
                     DateUtils.isSameDay(_focusedDay!,
                         DateTime.now().add(const Duration(days: 7)))),
-          if (widget.todayBtn)
-            kOutlinedBtn(
-                onPressed: () {
-                  _handleDateSelected(DateTime.now());
-                },
-                title: "Today",
-                isSelected: isTodayDateSelected),
-          if (widget.noDatebtn)
-            kOutlinedBtn(
-              onPressed: () {
-                // _handleDateSelected(null);
-              },
-              title: "No Date",
-              isSelected: _focusedDay == null,
-            ),
         ],
       ),
     );
   }
 
-  Widget kOutlinedBtn(
-      {required bool isSelected,
+  Widget cmnBtn(
+      {required VoidCallback onPressed,
       required String title,
-      VoidCallback? onPressed}) {
+      required bool isSelected}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6.0),
-      child: OutlinedButton(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+      child: PrimaryBtn(
+        width: 130,
         onPressed: onPressed,
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(
-            isSelected ? AppColors.primaryColor : Colors.white,
-          ),
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? AppColors.whiteColor : Colors.black,
-          ),
-        ),
+        title: title,
+        isSelected: isSelected,
       ),
     );
   }
@@ -587,9 +586,11 @@ class _MonthPickerState extends State<_MonthPicker> {
     super.dispose();
   }
 
-  void _handleDateSelected(DateTime selectedDate) {
+  void _handleDateSelected(DateTime? selectedDate) {
     _focusedDay = selectedDate;
-    widget.onChanged(selectedDate);
+    if (selectedDate != null) {
+      widget.onChanged(selectedDate);
+    }
   }
 
   void _handleMonthPageChanged(int monthPage) {
@@ -773,10 +774,8 @@ class _MonthPickerState extends State<_MonthPicker> {
       child: Column(
         children: <Widget>[
           extrabuttonWidget(),
-          // if (widget.row1 != null) widget.row1!,
-          // if (widget.row2 != null) widget.row2!,
           SizedBox(
-            height: _subHeaderHeight,
+            height: _subHeaderHeight - 12,
             child: Padding(
               padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
               child: Row(
@@ -792,7 +791,7 @@ class _MonthPickerState extends State<_MonthPicker> {
                         _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                   ),
                   SizedBox(
-                    width: 200,
+                    width: 130,
                     child: widget.toogleBtn,
                   ),
                   KIconButton(
@@ -834,46 +833,49 @@ class _MonthPickerState extends State<_MonthPicker> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Row(
                     children: [
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6.0),
-                        child: Icon(Icons.calendar_month),
+                        padding: EdgeInsets.symmetric(horizontal: 3.0),
+                        child: KIcon(icon: Icons.calendar_month),
                       ),
-                      KText(
-                        (_focusedDay?.todmmmyyyy() ?? "No date"),
+                      FittedBox(
+                        child: KText(
+                          (_focusedDay?.todmmmyyyy() ?? "No date"),
+                          fontSize: 14,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
                   child: Row(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          "Cancel",
-                        ),
+                      SecondaryBtn(
+                        title: "Cancel",
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 8,
                       ),
-                      OutlinedButton(
-                          onPressed: () {
-                            widget.onChanged(widget.selectedDate!);
-                            Navigator.of(context).pop(widget.selectedDate);
-                          },
-                          child: const Text("Save")),
+                      PrimaryBtn(
+                        onPressed: () {
+                          widget.onChanged(widget.selectedDate!);
+                          Navigator.of(context).pop(widget.selectedDate);
+                        },
+                        title: "Save",
+                      ),
                     ],
                   ),
                 )
               ],
             ),
-          )
+          ),
+          const SizedBox(
+            height: 8,
+          ),
         ],
       ),
     );
@@ -974,7 +976,8 @@ class _DayPickerState extends State<_DayPicker> {
         i = (i + 1) % DateTime.daysPerWeek) {
       final String weekday = _getShortWeekday(i);
       result.add(ExcludeSemantics(
-        child: Center(child: Text(weekday, style: headerStyle)),
+        child:
+            Center(child: FittedBox(child: Text(weekday, style: headerStyle))),
       ));
     }
     return result;
@@ -983,19 +986,19 @@ class _DayPickerState extends State<_DayPicker> {
   String _getShortWeekday(int weekdayIndex) {
     switch (weekdayIndex) {
       case 0:
-        return 'SUN';
+        return 'Sun';
       case 1:
-        return 'MON';
+        return 'Mon';
       case 2:
-        return 'TUE';
+        return 'Tue';
       case 3:
-        return 'WED';
+        return 'Wed';
       case 4:
-        return 'THU';
+        return 'Thu';
       case 5:
-        return 'FRI';
+        return 'Fri';
       case 6:
-        return 'SAT';
+        return 'Sat';
       default:
         return '';
     }

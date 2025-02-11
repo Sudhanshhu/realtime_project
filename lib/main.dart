@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtime_project/core/di/di.dart';
 import 'package:realtime_project/core/routing/router.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/emp/emp_screen.dart';
+import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
           useMaterial3: true,
         ),
         onGenerateRoute: generateRoute,

@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+
 extension DateTimeExt on DateTime {
   String todmmmyyyy() {
     return '$day ${getShortMonth(month)}, $year';
   }
 
-  // String toFormattedString() {
-  //   return DateFormat('yyyy-MM-dd HH:mm:ss').format(this);
-  // }
+  String caption() {
+    return DateUtils.isSameDay(this, DateTime.now()) ? "Today" : todmmmyyyy();
+  }
 }
 
 String getShortMonth(int i) {

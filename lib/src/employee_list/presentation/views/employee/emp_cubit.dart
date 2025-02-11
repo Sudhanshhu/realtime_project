@@ -5,7 +5,7 @@ import 'package:realtime_project/core/routing/route_manager.dart';
 import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
 
 import 'package:realtime_project/src/employee_list/domain/repos/emp_repo.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/emp/emp_state.dart';
+import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_state.dart';
 
 class EmpCubit extends Cubit<EmpState> {
   final EmployeeRepo repo;

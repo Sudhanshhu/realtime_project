@@ -81,7 +81,7 @@ class _KDateTimeSelectorState extends State<KDateTimeSelector> {
         if (pickedDate != null) {
           widget.onSelected!(pickedDate);
           setState(() {
-            dateController.text = pickedDate.todmmmyyyy();
+            dateController.text = pickedDate.caption();
             dateController.selection = TextSelection.collapsed(
               offset: dateController.text.length,
             );

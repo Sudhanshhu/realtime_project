@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:realtime_project/core/common/styles/colors.dart';
 import 'package:realtime_project/core/common/widget/k_icon.dart';
 
 class KTextFormField extends StatelessWidget {
@@ -55,6 +56,7 @@ class KTextFormField extends StatelessWidget {
   final Color disabledFillColor;
   final FocusNode? focusNode;
   final bool mandatory;
+  final double curve = 6.0;
 
   @override
   Widget build(BuildContext context) {
@@ -93,16 +95,19 @@ class KTextFormField extends StatelessWidget {
             prefixIcon:
                 prefixIconData != null ? KIcon(icon: prefixIconData!) : null,
             hintText: hintText,
-            label: Text(hintText ?? ""),
+            label: Text(
+              hintText ?? "",
+              style: hintStyle ?? const TextStyle(color: AppColors.greyColor),
+            ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(curve),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(curve),
               borderSide: const BorderSide(color: Colors.grey),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(curve),
               borderSide: BorderSide(
                 color: Theme.of(context).primaryColor,
               ),

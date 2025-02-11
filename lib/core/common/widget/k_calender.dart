@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:realtime_project/core/common/buttons/primary_btns.dart';
+import 'package:realtime_project/core/common/styles/colors.dart';
 import 'package:realtime_project/core/common/widget/k_icon.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
 import 'package:realtime_project/core/extensions/date_time_ext.dart';
 
 const Duration _monthScrollDuration = Duration(milliseconds: 200);
 
-const double _dayPickerRowHeight = 42.0;
+const double _dayPickerRowHeight = 46.0;
 const int _maxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 
 const double _maxDayPickerHeight =
@@ -280,7 +281,6 @@ class _CustomCalendarDatePickerState extends State<CustomCalendarDatePicker> {
           primarySwatch: Colors.blue,
           accentColor: Colors.blue,
         ),
-        dialogBackgroundColor: Colors.white,
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(
@@ -289,7 +289,8 @@ class _CustomCalendarDatePickerState extends State<CustomCalendarDatePicker> {
         ),
         child: Stack(
           children: <Widget>[
-            SizedBox(
+            Container(
+              color: AppColors.whiteColor,
               height: _subHeaderHeight + _maxDayPickerHeight + extraHeight,
               // (widget.row1 != null ? 52 : 0) +
               // (widget.row2 != null ? 52 : 0),
@@ -478,7 +479,7 @@ class _MonthPickerState extends State<_MonthPicker> {
   DateTime get nextMondayDate {
     final DateTime currentDate = DateTime.now();
     final DateTime nextMonday = currentDate.add(
-      Duration(days: DateTime.monday - currentDate.weekday),
+      Duration(days: DateTime.monday - currentDate.weekday + 7),
     );
     return nextMonday;
   }
@@ -486,7 +487,7 @@ class _MonthPickerState extends State<_MonthPicker> {
   DateTime get nextTuesdayDate {
     final DateTime currentDate = DateTime.now();
     final DateTime nextTuesday = currentDate.add(
-      Duration(days: DateTime.tuesday - currentDate.weekday),
+      Duration(days: DateTime.tuesday - currentDate.weekday + 7),
     );
     return nextTuesday;
   }
@@ -533,25 +534,26 @@ class _MonthPickerState extends State<_MonthPicker> {
           if (widget.nextTuesday)
             cmnBtn(
               onPressed: () {
-                final DateTime currentDate = DateTime.now();
-                final DateTime nextTuesday = currentDate.add(
-                  Duration(days: DateTime.tuesday - currentDate.weekday),
-                );
-                _handleDateSelected(nextTuesday);
+                _handleDateSelected(nextTuesdayDate);
               },
               title: "Next Tuesday",
               isSelected: isFocussedDateNextTuesday,
             ),
           if (widget.after1WeekBtn)
             cmnBtn(
-                onPressed: () {
-                  _handleDateSelected(
-                      DateTime.now().add(const Duration(days: 7)));
-                },
-                title: "After 1 Week",
-                isSelected: _focusedDay != null &&
-                    DateUtils.isSameDay(_focusedDay!,
-                        DateTime.now().add(const Duration(days: 7)))),
+              onPressed: () {
+                _handleDateSelected(
+                    DateTime.now().add(const Duration(days: 7)));
+              },
+              title: "After 1 Week",
+              isSelected: _focusedDay != null &&
+                  DateUtils.isSameDay(
+                    _focusedDay!,
+                    DateTime.now().add(
+                      const Duration(days: 7),
+                    ),
+                  ),
+            ),
         ],
       ),
     );
@@ -850,7 +852,7 @@ class _MonthPickerState extends State<_MonthPicker> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  padding: const EdgeInsets.only(right: 12.0),
                   child: Row(
                     children: [
                       SecondaryBtn(

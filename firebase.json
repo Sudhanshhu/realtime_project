@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "grootantest-71a14-e3e70",
+    "site": "grootantest-71a14-58f87",
     "public": "build/web",
     "ignore": [
       "firebase.json",

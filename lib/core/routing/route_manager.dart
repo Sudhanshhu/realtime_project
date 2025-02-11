@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtime_project/core/routing/app_routing.dart';
 import 'package:realtime_project/core/routing/custom_args.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
 
 abstract class RouteManager {
   static void popTillHome(BuildContext context) {

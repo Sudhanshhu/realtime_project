@@ -7,9 +7,9 @@ import 'package:realtime_project/core/common/widget/k_appbar.dart';
 import 'package:realtime_project/core/common/widget/k_icon.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
 import 'package:realtime_project/core/di/di.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_cubit.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_state.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
+import 'package:realtime_project/src/employee_list/presentation/views_employee_list/emp_cubit.dart';
+import 'package:realtime_project/src/employee_list/presentation/views_employee_list/emp_state.dart';
 import 'package:realtime_project/src/employee_list/presentation/widgets/employee_tile.dart';
 
 class EmployeHomeScreen extends StatefulWidget {

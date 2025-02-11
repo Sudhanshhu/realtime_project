@@ -20,7 +20,7 @@ class KIcon extends StatelessWidget {
     return Icon(
       icon,
       color: color ?? AppColors.primaryColor,
-      size: size,
+      size: size ?? 20,
     );
   }
 }

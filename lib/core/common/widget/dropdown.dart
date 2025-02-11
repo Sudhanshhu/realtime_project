@@ -65,7 +65,10 @@ class _KdropDownState<T> extends State<KdropDown<T>> {
       controller: _controller,
       readOnly: true,
       prefixIconData: widget.leadingIcon,
-      suffixIcon: const KIcon(icon: Icons.arrow_drop_down),
+      suffixIcon: const KIcon(
+        icon: Icons.arrow_drop_down,
+        size: 35,
+      ),
     );
   }
 

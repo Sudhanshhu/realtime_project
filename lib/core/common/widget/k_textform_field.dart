@@ -64,66 +64,71 @@ class KTextFormField extends StatelessWidget {
       padding: EdgeInsets.all(givePadding ? 8.0 : 0.0),
       child: ConstrainedBox(
         constraints: const BoxConstraints(
-          maxHeight: 60,
           maxWidth: 450,
         ),
-        child: TextFormField(
-          focusNode: focusNode,
-          autofocus: autofocus,
-          onTap: onTap,
-          enabled: isEnable,
-          onChanged: onChanged,
-          controller: controller,
-          maxLines: maxLines,
-          minLines: minLines,
-          keyboardType: keyboardType,
-          obscureText: obscureText,
-          readOnly: readOnly,
-          validator: validator ??
-              ((mandatory && validator == null)
-                  ? (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This field is required';
+        child: SizedBox(
+          height: 45,
+          child: TextFormField(
+            cursorHeight: 20,
+            focusNode: focusNode,
+            autofocus: autofocus,
+            onTap: onTap,
+            enabled: isEnable,
+            onChanged: onChanged,
+            controller: controller,
+            maxLines: maxLines,
+            minLines: minLines,
+            keyboardType: keyboardType,
+            obscureText: obscureText,
+            readOnly: readOnly,
+            validator: validator ??
+                ((mandatory && validator == null)
+                    ? (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This field is required';
+                        }
+                        return validator?.call(value);
                       }
-                      return validator?.call(value);
-                    }
-                  : null),
-          onTapOutside: (_) {
-            FocusScope.of(context).unfocus();
-          },
-          decoration: InputDecoration(
-            prefixIcon:
-                prefixIconData != null ? KIcon(icon: prefixIconData!) : null,
-            hintText: hintText,
-            label: Text(
-              hintText ?? "",
-              style: hintStyle ?? const TextStyle(color: AppColors.greyColor),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(curve),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(curve),
-              borderSide: const BorderSide(color: Colors.grey),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(curve),
-              borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
+                    : null),
+            onTapOutside: (_) {
+              FocusScope.of(context).unfocus();
+            },
+            decoration: InputDecoration(
+              isDense: true,
+              prefixIcon:
+                  prefixIconData != null ? KIcon(icon: prefixIconData!) : null,
+              hintText: hintText,
+              label: Text(
+                hintText ?? "",
+                style: hintStyle ??
+                    const TextStyle(color: AppColors.greyColor, fontSize: 13),
               ),
-            ),
-            // overwriting the default padding helps with that puffy look
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            filled: filled,
-            fillColor: fillColour,
-            suffixIcon: suffixIcon,
-
-            hintStyle: hintStyle ??
-                const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(curve),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(curve),
+                borderSide: BorderSide(color: Colors.grey.withOpacity(0.5)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(curve),
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
                 ),
+              ),
+              // overwriting the default padding helps with that puffy look
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              filled: filled,
+              fillColor: fillColour,
+              suffixIcon: suffixIcon,
+
+              hintStyle: hintStyle ??
+                  const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
+            ),
           ),
         ),
       ),

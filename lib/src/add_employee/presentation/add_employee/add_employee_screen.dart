@@ -64,15 +64,18 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   }
 
   Widget buildBody(AddEmployeeState state) {
-    return Form(
-      key: screenCubit.formKey,
-      child: SingleChildScrollView(
-        child: Wrap(
-          children: [
-            empNameWidget(),
-            roleDropDown(),
-            dateSelector(),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Form(
+        key: screenCubit.formKey,
+        child: SingleChildScrollView(
+          child: Wrap(
+            children: [
+              empNameWidget(),
+              roleDropDown(),
+              dateSelector(),
+            ],
+          ),
         ),
       ),
     );

@@ -11,10 +11,10 @@ import 'package:realtime_project/core/common/widget/k_textform_field.dart';
 import 'package:realtime_project/core/common/widget/toast.dart';
 import 'package:realtime_project/core/di/di.dart';
 import 'package:realtime_project/core/role_enum.dart';
-import 'package:realtime_project/src/add_employee/presentation/add_employee/add_employee_cubit.dart';
-import 'package:realtime_project/src/add_employee/presentation/add_employee/add_employee_state.dart';
+import 'package:realtime_project/src/add_employee/presentation/views_add_employee/add_employee_cubit.dart';
+import 'package:realtime_project/src/add_employee/presentation/views_add_employee/add_employee_state.dart';
 import 'package:realtime_project/src/add_employee/presentation/widget/add_employee_bottom_btn.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
 
 class AddEmployeeScreen extends StatefulWidget {
   final Employee employee;

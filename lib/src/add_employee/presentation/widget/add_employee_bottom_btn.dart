@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:realtime_project/core/common/buttons/primary_btns.dart';
-import 'package:realtime_project/src/add_employee/presentation/add_employee/add_employee_cubit.dart';
+import 'package:realtime_project/src/add_employee/presentation/views_add_employee/add_employee_cubit.dart';
 
 class AddEmpoyeeBootomBtn extends StatelessWidget {
   const AddEmpoyeeBootomBtn({

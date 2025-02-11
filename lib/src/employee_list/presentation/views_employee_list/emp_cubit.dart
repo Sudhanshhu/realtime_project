@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realtime_project/core/routing/route_manager.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
 
-import 'package:realtime_project/src/employee_list/domain/repos/emp_repo.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_state.dart';
+import 'package:realtime_project/src/common/domain/repos/emp_repo.dart';
+import 'package:realtime_project/src/employee_list/presentation/views_employee_list/emp_state.dart';
 
 class EmpCubit extends Cubit<EmpState> {
   final EmployeeRepo repo;

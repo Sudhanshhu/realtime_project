@@ -5,9 +5,9 @@ import 'package:realtime_project/core/common/widget/toast.dart';
 import 'package:realtime_project/core/errors/exceptions.dart';
 
 import 'package:realtime_project/core/role_enum.dart';
-import 'package:realtime_project/src/add_employee/presentation/add_employee/add_employee_state.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
-import 'package:realtime_project/src/employee_list/domain/repos/emp_repo.dart';
+import 'package:realtime_project/src/add_employee/presentation/views_add_employee/add_employee_state.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/repos/emp_repo.dart';
 
 class AddEmployeeCubit extends Cubit<AddEmployeeState> {
   final EmployeeRepo repo;

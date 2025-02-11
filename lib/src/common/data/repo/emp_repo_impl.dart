@@ -1,7 +1,7 @@
 import 'package:realtime_project/core/models/api_response.dart';
-import 'package:realtime_project/src/employee_list/data/datasources/local_ds.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
-import 'package:realtime_project/src/employee_list/domain/repos/emp_repo.dart';
+import 'package:realtime_project/src/common/data/datasources/local_ds.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/repos/emp_repo.dart';
 
 class EmpRepoImpl implements EmployeeRepo {
   final EmployeeLocalDs employeeLocalDs;

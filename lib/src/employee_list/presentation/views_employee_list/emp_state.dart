@@ -1,4 +1,4 @@
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
 
 class EmpState {
   final bool isLoading;

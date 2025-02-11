@@ -4,7 +4,7 @@ import 'package:realtime_project/core/common/styles/colors.dart';
 import 'package:realtime_project/core/common/widget/ktext_widget.dart';
 import 'package:realtime_project/core/extensions/date_time_ext.dart';
 import 'package:realtime_project/core/extensions/string_ext.dart';
-import 'package:realtime_project/src/employee_list/domain/models/employee.dart';
+import 'package:realtime_project/src/common/domain/models/employee.dart';
 
 class DisplayEmployee extends StatelessWidget {
   final Employee emp;
@@ -32,7 +32,7 @@ class DisplayEmployee extends StatelessWidget {
               onDelete();
             },
             backgroundColor: AppColors.errorColor,
-            foregroundColor: Colors.white,
+            foregroundColor: AppColors.whiteColor,
             icon: Icons.delete,
             label: 'Delete',
           ),

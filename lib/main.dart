@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtime_project/core/di/di.dart';
 import 'package:realtime_project/core/routing/router.dart';
-import 'package:realtime_project/src/employee_list/presentation/views/employee/emp_screen.dart';
+import 'package:realtime_project/src/employee_list/presentation/views_employee_list/emp_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
